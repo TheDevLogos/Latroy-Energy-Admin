@@ -9,33 +9,105 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    :root,[data-theme=light]{--bg:#f6f4f0;--surface:#ffffff;--surface2:#f8f7f4;--muted:#6f6b62;--text:#1f1b16;--line:#ddd7cf;--primary:#4f9a92;--primary2:#3d8b82;--accent:#5560ea;--warn:#e08b5a;--darkcard:#12172b;--purple:#594de5;--radius:18px;--shadow:0 10px 30px rgba(23, 18, 8, .08)}
-    [data-theme=dark]{--bg:#111316;--surface:#171a20;--surface2:#1c2027;--muted:#a5a196;--text:#ece7df;--line:#2a3038;--primary:#5fb7ad;--primary2:#3d8b82;--accent:#6d73ff;--warn:#ffb27e;--darkcard:#0e1322;--purple:#6b5cff;--shadow:0 12px 30px rgba(0,0,0,.28)}
-    *{box-sizing:border-box} html,body{margin:0;height:100%;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text)} a{color:inherit;text-decoration:none} button,input,select,textarea{font:inherit}
-    .app{display:grid;grid-template-rows:70px 46px 1fr;min-height:100vh}
-    .topbar{display:flex;align-items:center;justify-content:space-between;padding:0 18px;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:var(--shadow);position:sticky;top:0;z-index:20}
-    .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:20px}.brand .logo{width:24px;height:24px;border-radius:6px;background:linear-gradient(135deg,var(--primary),#2f7068)}
-    .search{flex:1;max-width:470px;margin:0 22px;position:relative}.search input{width:100%;padding:14px 16px 14px 44px;border:1px solid #cfd6e3;background:#fff;border-radius:14px;color:var(--text);box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.62}
-    .top-actions{display:flex;align-items:center;gap:18px}.iconbtn{width:38px;height:38px;border-radius:50%;border:none;background:transparent;color:var(--muted);cursor:pointer}.pdfbtn{display:inline-flex;align-items:center;gap:10px;background:var(--primary);color:#fff;border:none;border-radius:8px;padding:13px 18px;font-weight:700;box-shadow:0 8px 20px rgba(79,154,146,.28)}
-    .tabs{display:flex;align-items:center;gap:12px;padding:0 14px;background:var(--surface);border-bottom:1px solid var(--line)}.tabs a{padding:13px 12px;border-radius:10px;color:#586070;font-weight:500}.tabs a.active{background:rgba(79,154,146,.1);color:var(--primary);font-weight:700}
-    .main{display:grid;grid-template-columns:420px 1fr 470px;min-height:0}.left,.right{background:var(--surface2);overflow:auto}.left{border-right:1px solid var(--line)}.right{border-left:1px solid var(--line)}.center{position:relative;overflow:hidden;background:#d8d9dc;display:flex;align-items:center;justify-content:center}
-    .map-bg{position:absolute;inset:0;background:linear-gradient(0deg, rgba(255,255,255,.05), rgba(255,255,255,.05)), repeating-linear-gradient(0deg, transparent, transparent 112px, rgba(255,255,255,.2) 112px, rgba(255,255,255,.2) 114px), repeating-linear-gradient(90deg, transparent, transparent 112px, rgba(255,255,255,.2) 112px, rgba(255,255,255,.2) 114px);opacity:.55}
-    .map-image{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%, rgba(255,255,255,.0) 0 33%, rgba(0,0,0,.08) 60% 100%)}
-    .pv-area{position:absolute;width:125px;height:125px;transform:rotate(45deg);background:repeating-linear-gradient(90deg,#214a76 0 4px,#3a76b3 4px 6px);border:3px solid #12365f;box-shadow:0 0 0 2px rgba(12,44,80,.12)}
-    .zoom{position:absolute;right:12px;bottom:18px;display:grid;z-index:3}.zoom button{width:42px;height:42px;border:1px solid var(--line);background:#fff;font-size:24px;cursor:pointer}.zoom button:first-child{border-radius:8px 8px 0 0;border-bottom:none}.zoom button:last-child{border-radius:0 0 8px 8px}
-    .mapmode{position:absolute;top:18px;right:18px;display:flex;gap:0;z-index:3}.mapmode button{border:1px solid #d2d8e2;background:#fff;padding:10px 16px;font-weight:600;color:#51606f}.mapmode button.active{background:#edf6f5;color:#1f5c56}
-    .panel{padding:18px}.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);margin-bottom:18px}.card.teal{background:#eefaf7;border-color:#bcebe3}.card.yellow{background:#fff8ea;border-color:#f2dd95}.card.dark{background:var(--darkcard);color:#eef1ff;border-color:rgba(255,255,255,.08)}
-    .card.purple{background:#fff;border-color:#6c61e8;box-shadow:0 0 0 2px rgba(100,93,233,.24)}
-    .section-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;font-weight:700}.section-title .pill{font-size:12px;background:rgba(79,154,146,.15);padding:6px 10px;border-radius:999px;color:var(--primary)}
-    .layout-toggle{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}.switch{width:52px;height:28px;border-radius:999px;background:var(--primary);position:relative}.switch:before{content:'';position:absolute;width:22px;height:22px;border-radius:50%;background:#fff;top:3px;right:3px}
-    .slider-wrap{margin:14px 0}.slider-wrap input{width:100%}.ghostbtn,.outlinebtn,.dangerbtn,.actionbtn{width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:13px 14px;border-radius:8px;border:1px solid #c9e8e4;background:#eefaf7;color:#2e736b;font-weight:700;margin-top:10px;cursor:pointer}.outlinebtn{background:#fff;color:#36404d;border-color:#d8dde6}.dangerbtn{background:#fff;color:#cb4a3b;border-color:#efcdc8}.ghostbtn{background:#fff;border-color:#bde8e0}
-    .mini-kpi{background:#fff;border-radius:12px;border:1px solid #e7e2db;padding:20px;text-align:center;margin-top:14px}.mini-kpi .label{font-size:12px;letter-spacing:.08em;color:#a3a0a8;text-transform:uppercase}.mini-kpi .value{font-size:34px;font-weight:800;color:#3b8d83;margin-top:10px}
-    .right .top-card{padding:18px}.darkinfo{background:var(--darkcard);color:#eef2ff;border-radius:14px;padding:18px 18px 16px;margin:10px 0 18px;box-shadow:var(--shadow)}.darkinfo .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.08)}.darkinfo .row:last-child{border-bottom:none}
-    .bigpanel{border:2px solid #5c56ea;border-radius:16px;background:#fff;overflow:hidden;box-shadow:var(--shadow)}.bigpanel .head{background:#5147d8;color:#fff;padding:16px 18px;display:flex;justify-content:space-between;align-items:center;font-weight:800}.bigpanel .body{padding:18px}
-    .metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}.metric .k{font-size:13px;color:#717b8c;text-transform:uppercase}.metric .v{font-size:40px;font-weight:800;letter-spacing:-1px}.metric .u{font-size:14px;color:#77808e;margin-left:8px}.divider{height:1px;background:#e5e8ef;margin:18px 0}
-    .footcards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.smallcard{border:1px solid #e2e5ee;border-radius:14px;padding:14px;background:#fff}.smallcard .k{font-size:12px;color:#7d8596;font-weight:700;letter-spacing:.02em}.smallcard .v{font-weight:800;font-size:16px;margin-top:8px}
-    .formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.full{grid-column:1/-1}.field label{display:block;font-size:12px;font-weight:700;color:#65707f;margin:0 0 6px}.field input,.field select,.field textarea{width:100%;padding:11px 12px;border:1px solid #d8dce6;background:#fff;border-radius:10px}.field textarea{min-height:80px;resize:vertical}.searchbox{display:none}
-    @media (max-width:1400px){.main{grid-template-columns:360px 1fr 390px}.search{max-width:360px}}
+    :root,[data-theme=light]{
+      --bg:#ffffff;--surface:#ffffff;--surface2:#f7f8f9;--muted:#7b8794;--text:#1c2733;--line:#e6e9ec;
+      --primary:#2f9e7d;--primary-dark:#1f7c62;--primary-soft:#e8f7f1;--accent:#2f9e7d;
+      --radius-sm:10px;--radius-md:14px;--radius-lg:20px;--shadow:0 4px 14px rgba(20,30,40,.06);
+    }
+    [data-theme=dark]{
+      --bg:#0f1417;--surface:#161c20;--surface2:#1b2226;--muted:#9aa7b0;--text:#eef2f3;--line:#232b30;
+      --primary:#3db38d;--primary-dark:#2f9e7d;--primary-soft:#16302a;--shadow:0 8px 22px rgba(0,0,0,.35);
+    }
+    *{box-sizing:border-box} html,body{margin:0;height:100%;font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text)}
+    a{color:inherit;text-decoration:none} button,input,select,textarea{font:inherit}
+    .app{display:grid;grid-template-rows:74px 54px 1fr;min-height:100vh}
+
+    .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 22px;background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:19px}
+    .brand .logo{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--primary),var(--primary-dark))}
+    .search{flex:1;max-width:420px;position:relative}
+    .search input{width:100%;padding:12px 14px 12px 40px;border:1px solid var(--line);background:var(--surface2);border-radius:999px;color:var(--text)}
+    .search svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);opacity:.55}
+    .top-actions{display:flex;align-items:center;gap:12px}
+    .iconbtn{width:38px;height:38px;border-radius:999px;border:1px solid var(--line);background:var(--surface2);color:var(--muted);cursor:pointer}
+    .pdfbtn{display:inline-flex;align-items:center;gap:8px;background:var(--primary);color:#fff;border:none;border-radius:999px;padding:11px 18px;font-weight:700;cursor:pointer;box-shadow:0 6px 16px rgba(47,158,125,.28)}
+    .pdfbtn:hover{background:var(--primary-dark)}
+
+    .tabs{display:flex;align-items:center;gap:8px;padding:0 16px;background:var(--surface);border-bottom:1px solid var(--line)}
+    .tabs a{display:inline-flex;align-items:center;gap:6px;padding:10px 14px;border-radius:999px;color:var(--muted);font-weight:600;font-size:14px}
+    .tabs a.active{background:var(--primary-soft);color:var(--primary-dark)}
+
+    .main{display:grid;grid-template-columns:400px 1fr 440px;min-height:0}
+    .left,.right{background:var(--surface);overflow:auto}
+    .left{border-right:1px solid var(--line)}
+    .right{border-left:1px solid var(--line)}
+    .center{position:relative;overflow:hidden;background:var(--surface2);display:flex;align-items:center;justify-content:center}
+    .map-bg{position:absolute;inset:0;background:repeating-linear-gradient(0deg, transparent, transparent 110px, rgba(0,0,0,.03) 110px, rgba(0,0,0,.03) 112px),repeating-linear-gradient(90deg, transparent, transparent 110px, rgba(0,0,0,.03) 110px, rgba(0,0,0,.03) 112px)}
+    .pv-area{position:absolute;width:120px;height:120px;transform:rotate(45deg);background:repeating-linear-gradient(90deg,var(--primary-dark) 0 4px,var(--primary) 4px 6px);border:3px solid var(--primary-dark);border-radius:8px;box-shadow:var(--shadow)}
+    .mapmode{position:absolute;top:16px;right:16px;display:flex;background:var(--surface);border-radius:999px;border:1px solid var(--line);overflow:hidden}
+    .mapmode button{border:none;background:transparent;padding:9px 16px;font-weight:600;color:var(--muted);cursor:pointer}
+    .mapmode button.active{background:var(--primary-soft);color:var(--primary-dark)}
+    .zoom{position:absolute;right:16px;bottom:18px;display:grid;border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+    .zoom button{width:40px;height:40px;border:1px solid var(--line);background:var(--surface);font-size:20px;cursor:pointer}
+
+    .panel{padding:20px}
+    .section-label{font-size:12px;font-weight:700;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;margin:0 0 14px}
+    .field{margin-bottom:16px}
+    .field label{display:block;font-size:13px;font-weight:700;color:var(--text);margin:0 0 8px}
+    .field .hint{font-size:12px;color:var(--muted);margin-top:6px}
+    .field input,.field select,.field textarea{width:100%;padding:13px 14px;border:1px solid var(--line);background:var(--surface2);border-radius:var(--radius-sm);color:var(--text)}
+    .field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
+    .field textarea{min-height:80px;resize:vertical}
+    .field-suffix{position:relative}
+    .field-suffix .unit{position:absolute;right:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:13px}
+    .formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+    .full{grid-column:1/-1}
+
+    .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-lg);padding:20px;box-shadow:var(--shadow);margin-bottom:18px}
+    .card.soft{background:var(--primary-soft);border-color:transparent}
+
+    .checkrow{display:flex;align-items:center;gap:10px;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:18px 0}
+    .checkrow input{width:18px;height:18px;accent-color:var(--primary)}
+
+    .btn{width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 14px;border-radius:var(--radius-sm);font-weight:700;cursor:pointer;margin-top:10px;border:1px solid var(--line)}
+    .btn.primary{background:var(--primary);color:#fff;border:none}
+    .btn.primary:hover{background:var(--primary-dark)}
+    .btn.ghost{background:var(--primary-soft);color:var(--primary-dark);border-color:transparent}
+    .btn.outline{background:var(--surface);color:var(--text)}
+    .btn.danger{background:var(--surface);color:#c0392b;border-color:#f1d4d0}
+
+    .mini-kpi{background:var(--surface2);border-radius:var(--radius-md);padding:18px;text-align:center;margin-top:14px}
+    .mini-kpi .label{font-size:11px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+    .mini-kpi .value{font-size:30px;font-weight:800;color:var(--primary-dark);margin-top:6px}
+
+    .darkinfo{background:var(--surface2);border-radius:var(--radius-lg);padding:18px;margin-bottom:18px}
+    .darkinfo .row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+    .darkinfo .row:last-child{border-bottom:none}
+
+    .bigpanel{border:1px solid var(--line);border-radius:var(--radius-lg);background:var(--surface);overflow:hidden;box-shadow:var(--shadow);margin-bottom:18px}
+    .bigpanel .head{background:var(--primary-soft);color:var(--primary-dark);padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-weight:700}
+    .bigpanel .head .pill{font-size:12px;background:rgba(255,255,255,.5);padding:5px 10px;border-radius:999px}
+    .bigpanel .body{padding:20px}
+    .metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+    .metric .k{font-size:12px;color:var(--muted);text-transform:uppercase;font-weight:700}
+    .metric .v{font-size:34px;font-weight:800;letter-spacing:-.5px}
+    .metric .u{font-size:13px;color:var(--muted);margin-left:6px}
+    .divider{height:1px;background:var(--line);margin:16px 0}
+    .kv-row{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;font-size:14px;margin-bottom:10px;color:var(--muted)}
+    .kv-row strong{color:var(--text);font-weight:700}
+    .inline-box{background:var(--surface2);border-radius:var(--radius-md);padding:14px 16px}
+
+    .footcards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .smallcard{border:1px solid var(--line);border-radius:var(--radius-md);padding:14px;background:var(--surface)}
+    .smallcard .k{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.03em}
+    .smallcard .v{font-weight:800;font-size:16px;margin-top:8px;color:var(--primary-dark)}
+
+    .table-wrap{overflow:auto;border-radius:var(--radius-md);border:1px solid var(--line)}
+    table{border-collapse:collapse;width:100%}
+    th,td{padding:10px 12px;text-align:left;font-size:13px;border-bottom:1px solid var(--line)}
+    th{background:var(--surface2);color:var(--muted);font-weight:700;text-transform:uppercase;font-size:11px}
+
+    @media (max-width:1400px){.main{grid-template-columns:340px 1fr 380px}.search{max-width:320px}}
     @media (max-width:1200px){.main{grid-template-columns:1fr}.left,.right{display:none}.center{min-height:78vh}.search{display:none}}
   </style>
 </head>
@@ -43,94 +115,189 @@
   <div class="app">
     <header class="topbar">
       <div class="brand"><div class="logo"></div><span>Latroy Energy</span></div>
-      <div class="search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="m21 21-4.35-4.35" stroke="#667085" stroke-width="2" stroke-linecap="round"/><circle cx="11" cy="11" r="7" stroke="#667085" stroke-width="2"/></svg><input id="city-search" placeholder="Buscar ciudad en México..." /></div>
-      <div class="top-actions"><button class="iconbtn" id="theme-toggle" title="Tema">☾</button><button class="pdfbtn" id="btn-generar-pdf" type="button">⬇ Preparar PDF</button></div>
+      <div class="search">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="m21 21-4.35-4.35" stroke="#7b8794" stroke-width="2" stroke-linecap="round"/><circle cx="11" cy="11" r="7" stroke="#7b8794" stroke-width="2"/></svg>
+        <input id="city-search" placeholder="Buscar ciudad en México..." />
+      </div>
+      <div class="top-actions">
+        <button class="iconbtn" id="theme-toggle" title="Tema">☾</button>
+        <button class="pdfbtn" id="btn-generar-pdf" type="button">⬇ Preparar PDF</button>
+      </div>
     </header>
+
     <nav class="tabs">
-      <a class="active" href="#">Inmueble</a><a href="#">Áreas (1)</a><a href="#">Ingeniería</a>
+      <a class="active" href="#resumen">Resumen</a>
+      <a href="#clientes">Clientes</a>
+      <a href="#diagnostico">Diagnóstico</a>
+      <a href="#dimensionamiento">Dimensionamiento</a>
+      <a href="#validacion">Validación</a>
+      <a href="#cotizacion">Cotización</a>
+      <a href="#pipeline">Pipeline</a>
     </nav>
-    <section class="main">
+
+    <section class="main" id="resumen">
       <aside class="left">
         <div class="panel">
-          <div class="card teal">
-            <div class="layout-toggle"><div style="display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px;color:#2b5f59">▦ Layout Físico</div><div class="switch"></div></div>
-            <div class="card" style="margin:0 0 12px;padding:14px 14px 12px;background:#fff">
-              <div style="display:flex;align-items:center;justify-content:space-between;color:#6a7380;font-weight:700;letter-spacing:.02em"><span>ORIENTACIÓN MALLA</span><span style="background:#f2f4f8;border-radius:6px;padding:2px 10px;color:#374151">137°</span></div>
-              <div class="slider-wrap"><input id="orientacion" type="range" min="0" max="360" value="137"></div>
-              <button class="ghostbtn" type="button">↗ ALINEAR AUTOMÁTICO A TECHO</button>
+          <p class="section-label">Características del cliente</p>
+
+          <div class="card" id="clientes">
+            <div class="field">
+              <label for="cliente_nombre">Nombre / razón social</label>
+              <input id="cliente_nombre" name="cliente_nombre">
             </div>
-            <button class="ghostbtn" type="button">◻ Dibujar Malla Libre (Arrastrar)</button>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px"><button class="outlinebtn" type="button">⟲ Auto-Rellenar</button><button class="outlinebtn" type="button">↗ Insertar 1</button></div>
-            <button class="dangerbtn" type="button">🗑 Limpiar Todos los Paneles</button>
-            <div class="mini-kpi"><div class="label">PANELES INSTANCIADOS</div><div class="value" id="kpi-paneles">343</div></div>
+            <div class="formgrid">
+              <div class="field"><label for="cliente_segmento">Segmento</label>
+                <select id="cliente_segmento" name="cliente_segmento"><option>Residencial</option><option>Comercial</option><option>Gran Empresa</option></select>
+              </div>
+              <div class="field"><label for="cliente_telefono">Teléfono</label><input id="cliente_telefono" name="cliente_telefono"></div>
+            </div>
+            <div class="field"><label for="cliente_contacto">Contacto</label><input id="cliente_contacto" name="cliente_contacto"></div>
+            <div class="field"><label for="datos-cliente">Datos del cliente</label><textarea id="datos-cliente" placeholder="Dirección, RPU, municipio, observaciones"></textarea></div>
+            <div class="field"><label for="cliente_id">Cliente ID</label><input id="cliente_id" name="cliente_id" placeholder="Se asigna al guardar"></div>
+            <button class="btn primary" id="btn-guardar-cliente" type="button">Guardar cliente</button>
           </div>
-          <div class="card yellow">
-            <div class="section-title"><span>☼ ANÁLISIS SOLAR TIPO PVGIS</span></div>
-            <p style="margin:0;color:#6e5d2a;line-height:1.55">Estimación preliminar para Chihuahua, Chihuahua, México. Radiación media modelada: 5.2 kWh/m²/día.</p>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px">
-              <div class="smallcard" style="border-color:#edd98b"><div class="k">AZIMUT RECOMENDADO</div><div class="v" style="color:#2f6f68">180° Sur</div></div>
-              <div class="smallcard" style="border-color:#edd98b"><div class="k">INCLINACIÓN ANUAL</div><div class="v" style="color:#2f6f68">25°</div></div>
+
+          <div class="card" id="diagnostico">
+            <p class="section-label">Diagnóstico de consumo</p>
+            <div class="field"><label for="diag_cliente_id">Cliente ID</label><input id="diag_cliente_id" name="cliente_id"></div>
+            <div class="field field-suffix">
+              <label for="consumo_kwh_periodo">Consumo del periodo</label>
+              <input id="consumo_kwh_periodo" name="consumo_kwh_periodo" type="number" step="0.01" placeholder="2765.2">
+              <span class="unit">kWh</span>
             </div>
+            <p class="hint">Sincronizada con el Área Neta Base del Análisis Técnico FV.</p>
+            <div class="checkrow">
+              <input type="checkbox" id="usar-consumo-manual">
+              <label for="usar-consumo-manual" style="margin:0;font-weight:600">Ingresar consumo mensual manual (kWh)</label>
+            </div>
+            <div class="formgrid">
+              <div class="field"><label for="tarifa_cfe">Tarifa CFE</label><input id="tarifa_cfe" name="tarifa_cfe" placeholder="DAC, PDBT, GDMTH..."></div>
+              <div class="field"><label for="periodo_facturacion">Periodo</label><select id="periodo_facturacion" name="periodo_facturacion"><option>Mensual</option><option>Bimestral</option></select></div>
+            </div>
+            <button class="btn primary" id="btn-guardar-diagnostico" type="button">Guardar diagnóstico</button>
           </div>
-          <div class="card" style="margin-top:18px">
-            <h3 style="margin:0 0 8px">Backend funcional</h3>
-            <p style="margin:0;color:var(--muted);line-height:1.5">Conecta estos campos con tu Google Sheets mediante Apps Script y la Web App /exec.</p>
-            <div class="formgrid" style="margin-top:14px">
-              <div class="field full"><label>Cliente ID</label><input id="cliente_id" name="cliente_id"></div>
-              <div class="field"><label>Segmento</label><select id="segmento" name="segmento"><option>Residencial</option><option>Comercial</option><option>Gran Empresa</option></select></div>
-              <div class="field"><label>Tarifa CFE</label><input id="tarifa_cfe" name="tarifa_cfe"></div>
-              <div class="field"><label>Consumo (kWh)</label><input id="consumo_kwh_periodo" name="consumo_kwh_periodo" type="number" step="0.01"></div>
-              <div class="field"><label>Periodo</label><select id="periodo_facturacion" name="periodo_facturacion"><option>Mensual</option><option>Bimestral</option></select></div>
-            </div>
+
+          <div class="card soft">
+            <p class="section-label" style="color:var(--primary-dark)">Tarifa real opcional (MXN/kWh)</p>
+            <div class="field"><input id="tarifa-real-mxn-kwh" placeholder="2.35"></div>
+            <p class="hint" style="margin:0 0 14px">Déjelo vacío para usar la estimación automática por tipo de inmueble.</p>
+            <div class="kv-row"><span>Consumo anual modelado</span><strong id="consumo-anual-modelado">—</strong></div>
+            <div class="kv-row"><span>Demanda máxima estimada</span><strong id="demanda-maxima">—</strong></div>
+            <div class="kv-row"><span>Tarifa estimada</span><strong id="tarifa-estimada" style="color:var(--primary-dark)">$2.35/kWh</strong></div>
           </div>
         </div>
       </aside>
+
       <main class="center">
         <div class="map-bg"></div>
-        <div class="map-image"></div>
         <div class="pv-area" title="Área FV"></div>
-        <div class="mapmode"><button class="active">Satélite</button><button>Calles</button></div>
+        <div class="mapmode"><button class="active" type="button">Satélite</button><button type="button">Calles</button></div>
         <div class="zoom"><button type="button">+</button><button type="button">−</button></div>
       </main>
+
       <aside class="right">
-        <div class="panel top-card">
-          <h2 style="margin:0 0 14px;font-size:23px">▦ Análisis Técnico FV</h2>
+        <div class="panel" id="dimensionamiento">
+          <p class="section-label">Análisis técnico FV</p>
           <div class="darkinfo">
             <div class="row"><span>Área Bruta Delimitada</span><span id="area_bruta">1004.1 m²</span></div>
-            <div class="row"><span style="color:#f38b80">Obstrucciones Detectadas</span><span style="color:#f38b80">− 0.0 m²</span></div>
-            <div class="row" style="padding-top:16px"><span style="font-size:20px">Área Neta Base</span><span id="area_neta" style="font-size:26px">1004.1 m²</span></div>
+            <div class="row"><span style="color:#c0392b">Obstrucciones Detectadas</span><span style="color:#c0392b">− 0.0 m²</span></div>
+            <div class="row"><span>Área Neta Base</span><strong id="area_neta">1004.1 m²</strong></div>
             <div class="row"><span>Coordenadas Centroide</span><span>28.20164, −105.47001</span></div>
           </div>
+
           <div class="bigpanel">
-            <div class="head"><span>Diseño de Layout Físico</span><span style="font-size:13px;background:rgba(255,255,255,.15);padding:6px 10px;border-radius:999px">MODO MANUAL</span></div>
+            <div class="head"><span>Diseño de layout físico</span><span class="pill">MODO MANUAL</span></div>
             <div class="body">
               <div class="metric-grid">
                 <div class="metric"><div class="k">Capacidad FV</div><div><span class="v" id="capacidad_instalada_kw">188.7</span><span class="u"> kWp</span></div></div>
                 <div class="metric" style="text-align:right"><div class="k">Módulos</div><div><span class="v" id="cantidad_paneles">343</span><span class="u"> ud</span></div></div>
               </div>
               <div class="divider"></div>
-              <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;font-size:16px;margin-bottom:10px"><span>Generación Anual Est.</span><strong id="gen_anual">286,446 kWh</strong></div>
-              <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;font-size:16px;margin-bottom:10px"><span>Rendimiento Específico</span><strong id="rendimiento">1518 kWh/kWp</strong></div>
-              <div style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;font-size:16px;margin-bottom:10px"><span>Cobertura Compensable</span><strong style="color:#4b4ef7">100%</strong></div>
+              <div class="kv-row"><span>Generación anual est.</span><strong id="gen_anual">286,446 kWh</strong></div>
+              <div class="kv-row"><span>Rendimiento específico</span><strong id="rendimiento">1518 kWh/kWp</strong></div>
+              <div class="kv-row"><span>Cobertura compensable</span><strong style="color:var(--primary-dark)">100%</strong></div>
               <div class="divider"></div>
-              <div style="background:#f6f8ff;border-radius:12px;padding:14px 16px">
-                <div style="display:flex;justify-content:space-between;gap:12px;padding-bottom:10px"><span>⚡ Inversor requerido:</span><strong id="inversor_kw">164.0 kW</strong></div>
-                <div style="display:flex;justify-content:space-between;gap:12px"><span>▢ Interconexión / BESS:</span><strong>Redimensionar FV</strong></div>
+              <div class="inline-box">
+                <div class="kv-row" style="margin-bottom:0"><span>⚡ Inversor requerido</span><strong id="inversor_kw">164.0 kW</strong></div>
               </div>
+              <div class="formgrid" style="margin-top:16px">
+                <div class="field"><label for="dim_irradiancia">Irradiancia (kWh/m²/día)</label><input id="dim_irradiancia" type="number" step="0.01" value="6.2"></div>
+                <div class="field"><label for="dim_perdidas">Pérdidas del sistema (%)</label><input id="dim_perdidas" type="number" step="0.01" value="12"></div>
+                <div class="field"><label for="dim_simultaneidad">Factor de simultaneidad</label><input id="dim_simultaneidad" type="number" step="0.01" value="0.9"></div>
+                <div class="field"><label for="select-panel">Panel</label><select id="select-panel"><option value="">Cargando catálogo...</option></select></div>
+                <div class="field full"><label for="select-inversor">Inversor</label><select id="select-inversor"><option value="">Cargando catálogo...</option></select></div>
+                <div class="field"><label for="dim_cliente_id">Cliente ID</label><input id="dim_cliente_id" name="cliente_id"></div>
+              </div>
+              <button class="btn primary" id="btn-guardar-dimensionamiento" type="button">Guardar dimensionamiento</button>
             </div>
           </div>
+
           <div class="footcards">
-            <div class="smallcard"><div class="k">AHORRO AÑO 1 · $2.35/KWH</div><div class="v" id="ahorro_ano1">$137,2</div></div>
+            <div class="smallcard"><div class="k">AHORRO AÑO 1 · $2.35/KWH</div><div class="v" id="ahorro_ano1">$137,2 mil</div></div>
             <div class="smallcard"><div class="k">CO₂ EVITADO · FE 0.444</div><div class="v" id="co2">—</div></div>
           </div>
         </div>
       </aside>
     </section>
+
+    <section class="main" style="grid-template-columns:1fr" id="secundario">
+      <div class="panel" style="max-width:1100px;margin:0 auto;width:100%">
+        <div class="card" id="validacion">
+          <p class="section-label">Validación normativa</p>
+          <p class="hint" style="margin-bottom:16px">La aprobación final depende del dictamen técnico de CFE y de la firma del instalador certificado responsable.</p>
+          <div class="formgrid">
+            <div class="field"><label for="val_cliente_id">Cliente ID</label><input id="val_cliente_id" name="cliente_id"></div>
+            <div class="field"><label for="val_capacidad">Capacidad instalada (kW)</label><input id="val_capacidad" name="capacidad_instalada_kw" type="number" step="0.01"></div>
+          </div>
+          <button class="btn ghost" id="btn-guardar-validacion" type="button">Guardar validación</button>
+        </div>
+
+        <div class="card" id="cotizacion">
+          <p class="section-label">Cotización estructurada</p>
+          <div class="formgrid">
+            <div class="field"><label for="cot_cliente_id">Cliente ID</label><input id="cot_cliente_id" name="cliente_id"></div>
+            <div class="field"><label for="cot_vendedor">Vendedor</label><input id="cot_vendedor" name="vendedor" value="Alonso Villalobos"></div>
+            <div class="field"><label for="cot_vigencia">Vigencia (días)</label><input id="cot_vigencia" name="vigencia_dias" type="number" value="15"></div>
+            <div class="field"><label for="cot_iva">IVA (%)</label><input id="cot_iva" name="iva_pct" type="number" value="16"></div>
+            <div class="field"><label for="cot_esquema">Esquema de contraprestación</label><select id="cot_esquema"><option>Net metering</option><option>Net billing</option><option>Venta total</option></select></div>
+            <div class="field"><label for="cot_objetivo">Objetivo financiero</label><input id="cot_objetivo" placeholder="Ahorro, respaldo, venta de excedentes"></div>
+            <div class="field full"><label for="detalle-costos">Detalle de costos (JSON)</label><textarea id="detalle-costos" placeholder='[{"concepto":"Paneles","monto_mxn":120000}]'></textarea></div>
+            <div class="field full"><label for="roi-json">ROI / proyección (JSON)</label><textarea id="roi-json" placeholder='[{"anio":1,"ahorro_anual_mxn":54000,"payback_estimado":4.8}]'></textarea></div>
+          </div>
+          <button class="btn primary" id="btn-guardar-cotizacion" type="button">Guardar cotización completa</button>
+        </div>
+
+        <div class="formgrid" style="grid-template-columns:1fr 1fr">
+          <div class="card">
+            <p class="section-label">Detalle de costos</p>
+            <div class="table-wrap"><table><thead><tr><th>Concepto</th><th>Monto MXN</th></tr></thead><tbody id="tabla-detalle-costos"><tr><td colspan="2">Sin registros</td></tr></tbody></table></div>
+          </div>
+          <div class="card">
+            <p class="section-label">ROI y payback</p>
+            <div class="table-wrap"><table><thead><tr><th>Año</th><th>Ahorro</th><th>Payback</th></tr></thead><tbody id="tabla-roi"><tr><td colspan="3">Sin registros</td></tr></tbody></table></div>
+          </div>
+        </div>
+
+        <div class="card" id="pipeline">
+          <p class="section-label">Pipeline comercial</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Pipeline ID</th><th>Cliente ID</th><th>Cotización</th><th>Etapa</th><th>Próxima acción</th><th>Fecha</th><th>Responsable</th></tr></thead>
+              <tbody id="tabla-pipeline"><tr><td colspan="7">Sin registros</td></tr></tbody>
+            </table>
+          </div>
+          <button class="btn outline" id="btn-cargar-datos" type="button">Sincronizar datos</button>
+        </div>
+      </div>
+    </section>
   </div>
 
   <script src="app-integration.js"></script>
   <script>
-    const t=document.getElementById('theme-toggle');t?.addEventListener('click',()=>document.documentElement.setAttribute('data-theme',document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark'));
+    document.getElementById('theme-toggle')?.addEventListener('click', () => {
+      const root = document.documentElement;
+      root.setAttribute('data-theme', root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+    });
   </script>
 </body>
 </html>
